@@ -31,11 +31,15 @@ public class FileWorker {
         Files.write(Paths.get(path), str.getBytes(), StandardOpenOption.APPEND);
     }
 
-    public void rewrite(String str) throws IOException {
-        if (Files.exists(Paths.get(path))) {
-            Files.delete(Paths.get(path));
+    public void rewrite(String str) {
+        try {
+            if (Files.exists(Paths.get(path))) {
+                Files.delete(Paths.get(path));
+            }
+            Files.write(Paths.get(path), str.getBytes(), StandardOpenOption.CREATE_NEW);
+        } catch (IOException e) {
+
         }
-        Files.write(Paths.get(path), str.getBytes(), StandardOpenOption.CREATE_NEW);
     }
 
     public ArrayList<String> getAllStrings() throws IOException {
@@ -44,6 +48,7 @@ public class FileWorker {
         while (reader.ready()) {
             result.add(reader.readLine());
         }
+        reader.close();
         return result;
     }
 }
