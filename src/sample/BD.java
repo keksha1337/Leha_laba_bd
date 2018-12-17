@@ -1,21 +1,15 @@
 package sample;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 public class BD {
     private HashMap<Integer, Entity> entities;
-    private FileWorker fileWorker;
 
     public BD() {
         entities = new HashMap<>();
-        fileWorker = new FileWorker();
-    }
-
-    public void create(String path) throws IOException {
-        fileWorker.create(path);
     }
 
     public void addEntity(Entity entity) {
@@ -23,7 +17,13 @@ public class BD {
     }
 
     public void removeEntity(String paramsName, String value) {
-
+        HashMap<Integer, Entity> result = new HashMap<>();
+        for (Map.Entry<Integer, Entity> oneEntity : entities.entrySet()) {
+            if(!oneEntity.getValue().contains(paramsName, value)) {
+                result.put(oneEntity.getKey(), oneEntity.getValue());
+            }
+        }
+        entities = new HashMap<>(result);
     }
 
     public String getEntityParams(int id, String params) {
