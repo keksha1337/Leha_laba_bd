@@ -7,11 +7,17 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class MainActivityController {
     @FXML
@@ -68,11 +74,13 @@ public class MainActivityController {
         createButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                FileWorker fileWorker = new FileWorker(path.getText());
+                FileWorker fileWorker = FileWorker.getEntity(path.getText());
                 String result = "";
+
                 if (anchorPane.getChildren().get(0).getClass().equals(Label.class)) {
                     anchorPane.getChildren().remove(0);
                 }
+
                 try {
                     for (int i = 4; i < anchorPane.getChildren().size(); i += 2) {
                         TextField textField = (TextField) anchorPane.getChildren().get(i);
@@ -87,14 +95,16 @@ public class MainActivityController {
                     addErrorLabel();
                     return;
                 }
+
                 fileWorker.rewrite(result + "\n");
+                openBdActivity();
             }
         });
 
         openButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                openBdActivity();
             }
         });
     }
@@ -106,6 +116,23 @@ public class MainActivityController {
         label.setPrefHeight(150);
         label.setPrefWidth(150);
         anchorPane.getChildren().add(0, label);
+    }
+
+    private void openBdActivity() {
+        try {
+            if (path.getText().equals("")) {
+                addErrorLabel();
+                return;
+            }
+            Stage primaryStage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("bd_activity.fxml"));
+            primaryStage.setTitle("BD");
+            primaryStage.setResizable(false);
+            primaryStage.setScene(new Scene(root, 600, 250));
+            primaryStage.show();
+        } catch (IOException e) {
+
+        }
     }
 
 }

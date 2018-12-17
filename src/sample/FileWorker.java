@@ -10,9 +10,23 @@ import java.util.ArrayList;
 
 public class FileWorker {
     private String path;
+    private static FileWorker fileWorker;
 
-    public FileWorker(String path) {
+    private FileWorker(String path) {
         this.path = path;
+    }
+
+    public static FileWorker getEntity() {
+        return fileWorker;
+    }
+
+    public static FileWorker getEntity(String path) {
+        if (fileWorker == null) {
+            fileWorker = new FileWorker(path);
+        } else if (!fileWorker.path.equals(path)) {
+            fileWorker = new FileWorker(path);
+        }
+        return fileWorker;
     }
 
     public String getPath() {
@@ -42,13 +56,18 @@ public class FileWorker {
         }
     }
 
-    public ArrayList<String> getAllStrings() throws IOException {
-        ArrayList<String> result = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new FileReader(path));
-        while (reader.ready()) {
-            result.add(reader.readLine());
+    public ArrayList<String> getAllStrings()  {
+        try {
+            ArrayList<String> result = new ArrayList<>();
+            BufferedReader reader = new BufferedReader(new FileReader(path));
+            while (reader.ready()) {
+                result.add(reader.readLine());
+            }
+            reader.close();
+
+            return result;
+        } catch (IOException e) {
+            return null;
         }
-        reader.close();
-        return result;
     }
 }
