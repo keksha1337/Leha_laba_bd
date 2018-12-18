@@ -124,14 +124,18 @@ public class MainActivityController {
                 addErrorLabel();
                 return;
             }
-            Stage primaryStage = new Stage();
+            FileWorker fileWorker = FileWorker.getEntity(path.getText());
+            Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("bd_activity.fxml"));
-            primaryStage.setTitle("BD");
-            primaryStage.setResizable(false);
-            primaryStage.setScene(new Scene(root, 600, 250));
-            primaryStage.show();
+            Scene scene = new Scene(root);
+            stage.setTitle("BD");
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+            Stage thisStage = (Stage) addButton.getScene().getWindow();
+            thisStage.close();
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 

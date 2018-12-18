@@ -13,7 +13,13 @@ public class BD {
     }
 
     public void addEntity(Entity entity) {
-        entities.put(Collections.max(new ArrayList<Integer>(entities.keySet())) + 1, entity);
+        int id;
+        try {
+            id = Collections.max(new ArrayList<Integer>(entities.keySet())) + 1;
+        } catch (Exception e) {
+            id = 1;
+        }
+        entities.put(id, entity);
     }
 
     public void removeEntity(String paramsName, String value) {

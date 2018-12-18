@@ -56,8 +56,9 @@ public class FileWorker {
         }
     }
 
-    public ArrayList<String> getAllStrings()  {
+    public ArrayList<String> getAllStrings(String path)  {
         try {
+            this.path = path;
             ArrayList<String> result = new ArrayList<>();
             BufferedReader reader = new BufferedReader(new FileReader(path));
             while (reader.ready()) {

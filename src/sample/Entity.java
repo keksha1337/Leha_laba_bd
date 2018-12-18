@@ -5,6 +5,10 @@ import java.util.HashMap;
 public class Entity {
     private HashMap<String, String> params;
 
+    public Entity() {
+        params = new HashMap<>();
+    }
+
     public boolean contains(String key, String value) {
         if (params.get(key) != null) {
             return true;
